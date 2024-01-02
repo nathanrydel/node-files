@@ -21,4 +21,21 @@ async function cat(path) {
   console.log(content);
 }
 
-cat(process.argv[2]);
+async function webCat(url) {
+  let response;
+  try {
+    response = await fetch(url);
+  } catch (err) {
+    console.error(`Error read ${url}: ${err}`);
+    process.exit(1);
+  }
+  console.log(await response);
+  // console.log(await response.text());
+
+}
+
+if (process.argv[2].includes('http')) {
+  webCat(process.argv[2]);
+} else {
+  cat(process.argv[2]);
+}
